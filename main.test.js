@@ -24,7 +24,7 @@ const getGenrePath = (childNum)=>{
 jest.setTimeout(30000);
 describe(projectName, () => {
   beforeAll(async () => {
-    browser = await puppeteer.launch({headless: false, slowMo:200});
+    browser = await puppeteer.launch();
     page = await browser.newPage();
   });
   afterAll(async () => {
@@ -55,8 +55,10 @@ describe(projectName, () => {
             await page.goto('http://localhost:3000');
             await page.waitForSelector('#search-bar');
             const filterText = "harry"
-            await page.type('#search-bar', filterText);
+            await page.type('#search-bar', filterText)
+            await delay(2000)
             await page.$eval('#submit-btn',submit=>submit.click())
+            await delay(2000)
             await page.waitForSelector('.tv-show');
             const {data} = await axios.get(
                 "https://www.episodate.com/api/search?q=harry"
@@ -102,9 +104,11 @@ describe(projectName, () => {
             await page.waitForSelector('#search-bar');
             const filterText = "game of thrones"
             await page.type('#search-bar', filterText);
+            await delay(2000)
             await page.$eval('#submit-btn',submit=>submit.click())
             await delay(2000)
             await page.$eval(getTvShowTitle(1),show=>show.click())
+            await delay(2000)
             await page.waitForSelector('.one-show-description');
             const { data } = await axios.get(`https://www.episodate.com/api/show-details?q=23455`);
             const selectedShow  = data.tvShow
