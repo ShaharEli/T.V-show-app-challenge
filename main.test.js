@@ -131,8 +131,19 @@ describe(projectName, () => {
             expect(showImg).toBe(selectedShow.image_path)
             const rating =  await page.$eval(".green",rating=>rating.innerText)
             expect(rating).toBe("9.4")
-            
+        })
+        test("the rating should have a class yellow if the rating is less then 8 and bigger or equal to 6", async () => {
+            await page.goto('http://localhost:3000/show/66428');
+            await delay(2000);
+            const rating = await page.$eval('.yellow', rating => rating.innerText)
+            expect(rating).toBe("7.0" || 7);
         })
 
+        test("the rating should have a class red if the rating is less then 6",async() =>{
+            await page.goto('http://localhost:3000/show/3232');
+            await delay(2000);
+            const rating = await page.$eval('.red',rating=>rating.innerText)
+            expect(rating).toBe("0" || 0);
+        })
     })
 })
